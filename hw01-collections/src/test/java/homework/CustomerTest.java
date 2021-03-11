@@ -11,7 +11,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class CustomerTest {
 
     // Все тесты должны проходить, менять тесты не надо.
-
     @Test
     @DisplayName("Объект Customer как ключ в карте")
     void customerAsKeyTest() {
