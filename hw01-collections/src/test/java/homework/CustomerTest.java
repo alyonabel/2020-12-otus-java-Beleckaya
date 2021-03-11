@@ -99,7 +99,6 @@ class CustomerTest {
         //then
         assertThat(customerService.getSmallest().getKey().getName()).isEqualTo(customer2.getName());
     }
-
     @Test
     @DisplayName("Возвращание в обратном порядке")
     void reverseOrderTest() {
