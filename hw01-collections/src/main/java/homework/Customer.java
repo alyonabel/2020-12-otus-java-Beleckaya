@@ -1,11 +1,9 @@
 package homework;
 
-import java.util.Objects;
-
 public class Customer {
     private final long id;
-    private final String name;
-    private final long scores;
+    private String name;
+    private long scores;
 
     //todo: 1. в этом классе надо исправить ошибки
 
@@ -24,6 +22,7 @@ public class Customer {
     }
 
     public void setName(String name) {
+        this.name = name;
     }
 
     public long getScores() {
@@ -31,6 +30,7 @@ public class Customer {
     }
 
     public void setScores(long scores) {
+        this.scores = scores;
     }
 
     @Override
@@ -44,21 +44,21 @@ public class Customer {
 
     @Override
     public boolean equals(Object o) {
-
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Customer customer = (Customer) o;
 
-        if(id != customer.id) return false;
-
-        return true;
+        if (id != customer.id) return false;
+        if (scores != customer.scores) return false;
+        return name != null ? name.equals(customer.name) : customer.name == null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (int) (scores ^ (scores >>> 32));
+        return result;
     }
-
-
 }
-
