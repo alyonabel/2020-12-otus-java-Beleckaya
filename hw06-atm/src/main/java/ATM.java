@@ -1,5 +1,5 @@
 public class ATM {
-    private static int balance;
+    private int balance;
     private static Cells cells;
     Bunch bunch;
 
@@ -33,7 +33,7 @@ public class ATM {
         cells.putToCellsByUser(bunch);
     }
 
-    public static boolean checkPossibility(int summa){
+    public boolean checkPossibility(int summa){
         if(balance<summa){System.out.println("Sorry, the ATM hasn't enough money");
         return false;}
           else return true;
