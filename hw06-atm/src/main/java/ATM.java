@@ -3,8 +3,9 @@ public class ATM {
     private  Cells cells;
 
     ATM() {
+        int initBanknotesCount = 10;
         cells = new Cells();
-        cells.fillFirstlyCells( 10); //add 10 banknotes for each denomination to the new device
+        cells.fillFirstlyCells( initBanknotesCount );
         balance = cells.getBalance();
 
     }
@@ -12,7 +13,11 @@ public class ATM {
         System.out.println(balance);
     }
 
-    void showCells() {  //Display banknotes in ATM cells
+    int getBalance() {
+        return balance;
+    }
+
+    void showCells() {
         System.out.println("Count of FIFTY: " + cells.showCell(Denomination.FIFTY));
         System.out.println("Count of HUNDRED: " + cells.showCell(Denomination.HUNDRED));
         System.out.println("Count of TWOHUNDRED: " + cells.showCell(Denomination.TWOHUNDRED));
@@ -22,7 +27,7 @@ public class ATM {
         System.out.println("Count of FIVETHOUSAND: " + cells.showCell(Denomination.FIVETHOUSAND));
     }
 
-    void putBunch(Bunch bunch){  //Deposit money
+    void putBunch(Bunch bunch){
         balance += bunch.countSum();
         cells.putToCellsByUser(bunch);
     }
