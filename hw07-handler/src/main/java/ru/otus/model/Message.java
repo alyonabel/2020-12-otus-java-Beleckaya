@@ -1,6 +1,7 @@
 package ru.otus.model;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Message implements Cloneable{
     private final long id;
@@ -95,9 +96,18 @@ public class Message implements Cloneable{
         return field12;
     }
 
+
+
     public ObjectForMessage getField13() {
         return field13;
     }
+
+    public ObjectForMessage deepCopy() {
+        ObjectForMessage copiedField13 = new ObjectForMessage();
+        copiedField13.setData(this.field13.getData());
+        return copiedField13;
+    }
+
 
     @Override
     public boolean equals(Object o) {

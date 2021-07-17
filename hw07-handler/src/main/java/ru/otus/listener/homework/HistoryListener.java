@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class HistoryListener implements Listener,HistoryReader {
+public class HistoryListener implements Listener, HistoryReader {
 
     private final Map<Long, Message> oldMessage = new HashMap<>();
 
@@ -26,7 +26,7 @@ public class HistoryListener implements Listener,HistoryReader {
                 .field10(oldMsg.getField10())
                 .field11(oldMsg.getField11())
                 .field12(oldMsg.getField12())
-                .field13(oldMsg.getField13())
+                .field13(oldMsg.deepCopy())
                 .build();
 
         oldMessage.put(oldMsg.getId(), savedMessage);

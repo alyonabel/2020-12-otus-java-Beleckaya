@@ -7,6 +7,7 @@ import ru.otus.processor.ProcessorUpperField10;
 import ru.otus.processor.homework.ChangeProcessor;
 import ru.otus.processor.homework.ExceptionProcessor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.jar.JarEntry;
 
@@ -23,9 +24,10 @@ public class HomeWork {
 
     public static void main(String[] args) {
         var processors = List.of(new ChangeProcessor(),
-                new ExceptionProcessor());
+                new ExceptionProcessor(LocalDateTime::now));
 
-        var complexProcessor = new ComplexProcessor(processors, (ex) -> {});
+        var complexProcessor = new ComplexProcessor(processors, (ex) -> {
+        });
         ObjectForMessage objectForMessage = new ObjectForMessage();
         objectForMessage.setData(List.of("field13"));
         var message = new Message.Builder(1L)
