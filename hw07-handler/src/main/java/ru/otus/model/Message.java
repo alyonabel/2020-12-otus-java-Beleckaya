@@ -1,9 +1,8 @@
 package ru.otus.model;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class Message implements Cloneable{
+public class Message implements Cloneable {
     private final long id;
     private final String field1;
     private final String field2;
@@ -21,25 +20,24 @@ public class Message implements Cloneable{
 
     //todo: 1. Добавить поля field11 - field13 (для field13 используйте класс ObjectForMessage)
 
-    private Message(long id, String field1, String field2, String field3, String field4, String field5, String field6, String field7, String field8, String field9, String field10, String field11, String field12, ObjectForMessage field13) {
-        this.id = id;
-        this.field1 = field1;
-        this.field2 = field2;
-        this.field3 = field3;
-        this.field4 = field4;
-        this.field5 = field5;
-        this.field6 = field6;
-        this.field7 = field7;
-        this.field8 = field8;
-        this.field9 = field9;
-        this.field10 = field10;
-        this.field11 = field11;
-        this.field12 = field12;
-        this.field13 = new ObjectForMessage();
+    private Message(Builder builder) {
+        this.id = builder.id;
+        this.field1 = builder.field1;
+        this.field2 = builder.field2;
+        this.field3 = builder.field3;
+        this.field4 = builder.field4;
+        this.field5 = builder.field5;
+        this.field6 = builder.field6;
+        this.field7 = builder.field7;
+        this.field8 = builder.field8;
+        this.field9 = builder.field9;
+        this.field10 =builder.field10;
+        this.field11 = builder.field11;
+        this.field12 = builder.field12;
+        this.field13 = builder.field13;
         if (field13 == null) {
             this.field13.setData(new ArrayList<>());
-        }
-        else {
+        } else {
             this.field13.setData(field13.getData());
         }
     }
@@ -96,30 +94,24 @@ public class Message implements Cloneable{
         return field12;
     }
 
-
-
     public ObjectForMessage getField13() {
-        return field13;
+        return new ObjectForMessage(field13);
     }
 
     public ObjectForMessage deepCopy() {
         ObjectForMessage copiedField13 = new ObjectForMessage();
+        this.field13.getData();
         copiedField13.setData(this.field13.getData());
         return copiedField13;
     }
-
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Message message = (Message) o;
-
         return id == message.id;
     }
-
-
 
     @Override
     public int hashCode() {
@@ -127,7 +119,7 @@ public class Message implements Cloneable{
     }
 
     public Builder toBuilder() {
-        return new Builder(id, field1, field2, field3, field4, field5, field6, field7, field8, field9, field10,field11,field12,field13);
+        return new Builder(id, field1, field2, field3, field4, field5, field6, field7, field8, field9, field10, field11, field12, field13);
     }
 
     @Override
@@ -149,7 +141,6 @@ public class Message implements Cloneable{
                 ", field13='" + field13.getData() + '\'' +
                 '}';
     }
-
     public static class Builder {
         private final long id;
         private String field1;
@@ -164,13 +155,13 @@ public class Message implements Cloneable{
         private String field10;
         private String field11;
         private String field12;
-        private ObjectForMessage field13;
+        private ObjectForMessage field13 = new ObjectForMessage();
 
         public Builder(long id) {
             this.id = id;
         }
 
-        private Builder(long id, String field1, String field2, String field3, String field4, String field5, String field6, String field7, String field8, String field9, String field10,String field11, String field12, ObjectForMessage field13) {
+        private Builder(long id, String field1, String field2, String field3, String field4, String field5, String field6, String field7, String field8, String field9, String field10, String field11, String field12, ObjectForMessage field13) {
             this.id = id;
             this.field1 = field1;
             this.field2 = field2;
@@ -184,9 +175,8 @@ public class Message implements Cloneable{
             this.field10 = field10;
             this.field11 = field11;
             this.field12 = field12;
-            this.field13 = new ObjectForMessage();
-            this.field13.setData(field13.getData());
-        }
+            this.field13(field13);
+                   }
 
         public Builder field1(String field1) {
             this.field1 = field1;
@@ -237,21 +227,24 @@ public class Message implements Cloneable{
             this.field10 = field10;
             return this;
         }
+
         public Builder field11(String field11) {
             this.field11 = field11;
             return this;
         }
+
         public Builder field12(String field12) {
             this.field12 = field12;
             return this;
         }
+
         public Builder field13(ObjectForMessage field13) {
-            this.field13 = field13;
+            this.field13 = new ObjectForMessage(field13);
             return this;
         }
 
         public Message build() {
-            return new Message(id, field1, field2, field3, field4, field5, field6, field7, field8, field9, field10, field11, field12, field13);
+            return new Message(this);
         }
     }
 }

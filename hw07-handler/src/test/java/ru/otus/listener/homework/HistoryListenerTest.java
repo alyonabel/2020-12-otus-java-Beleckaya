@@ -13,7 +13,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 class HistoryListenerTest {
 
     @Test
-    void ListenerTest() {
+    void ListenerTest() throws CloneNotSupportedException {
         //given
         var historyListener = new HistoryListener();
 
@@ -45,7 +45,7 @@ class HistoryListenerTest {
     }
 
     @Test
-    void listenerTest2() {
+    void listenerTest2() throws CloneNotSupportedException {
         //given
         var historyListener = new HistoryListener();
 
@@ -72,6 +72,7 @@ class HistoryListenerTest {
 
         //then
         var messageFromHistory = historyListener.findMessageById(id);
+
         assertThat(messageFromHistory).isPresent();
         assertThat(messageFromHistory.get().getField13().getData()).containsExactly(data);
 
