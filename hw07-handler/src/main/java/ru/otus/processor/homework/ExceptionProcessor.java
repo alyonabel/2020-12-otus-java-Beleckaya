@@ -2,28 +2,21 @@ package ru.otus.processor.homework;
 
 import ru.otus.model.Message;
 import ru.otus.processor.Processor;
-
 import java.time.DateTimeException;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.function.Supplier;
-
 
 public class ExceptionProcessor implements Processor {
 
+    private final TimeProvider timeProvider;
 
-    private final Supplier<LocalDateTime> dateTimeSupplier;
-
-    public ExceptionProcessor(Supplier<LocalDateTime> dateTimeSupplier) {
-        this.dateTimeSupplier=dateTimeSupplier;
-
+    public ExceptionProcessor(TimeProvider timeProvider) {
+        this.timeProvider=timeProvider;
     }
 
     @Override
     public Message process(Message message) {
-        if (dateTimeSupplier.get().getSecond() % 2 == 0) {
+        if (timeProvider.isEvenSecond()) {
             throw new DateTimeException("An exception in an even second");
         }
-        return message;
+        return message.toBuilder().build();
     }
 }

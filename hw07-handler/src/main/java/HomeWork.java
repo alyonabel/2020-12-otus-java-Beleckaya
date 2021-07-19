@@ -6,10 +6,11 @@ import ru.otus.processor.ProcessorConcatFields;
 import ru.otus.processor.ProcessorUpperField10;
 import ru.otus.processor.homework.ChangeProcessor;
 import ru.otus.processor.homework.ExceptionProcessor;
+import ru.otus.processor.homework.TimeProvider;
+import ru.otus.processor.homework.TimeProviderImpl;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.jar.JarEntry;
 
 public class HomeWork {
 
@@ -23,8 +24,10 @@ public class HomeWork {
      */
 
     public static void main(String[] args) {
-        var processors = List.of(new ChangeProcessor(),
-                new ExceptionProcessor(LocalDateTime::now));
+        TimeProvider timeProvider = new TimeProviderImpl();
+        var processors = List.of(
+                new ChangeProcessor(),
+                new ExceptionProcessor(timeProvider));
 
         var complexProcessor = new ComplexProcessor(processors, (ex) -> {
         });
