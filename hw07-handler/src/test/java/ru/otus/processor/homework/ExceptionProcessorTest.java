@@ -7,8 +7,7 @@ import ru.otus.processor.Processor;
 
 import java.time.DateTimeException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
@@ -33,6 +32,6 @@ class ExceptionProcessorTest {
     void processWithoutException() {
         Message message = new Message.Builder(1L).field1("data1").build();
         when(timeProviderMock.isEvenSecond()).thenReturn(false);
-        assertEquals(message, processor.process(message));
+        assertDoesNotThrow(() -> processor.process(message));
     }
 }
