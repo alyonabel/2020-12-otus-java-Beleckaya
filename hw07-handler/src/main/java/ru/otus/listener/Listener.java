@@ -4,7 +4,7 @@ import ru.otus.model.Message;
 
 public interface Listener {
 
-    void onUpdated(Message oldMsg, Message newMsg);
+    void onUpdated(Message oldMsg, Message newMsg) throws CloneNotSupportedException;
 
     //todo: 4. Сделать Listener для ведения истории: старое сообщение - новое (подумайте, как сделать, чтобы сообщения не портились)
     //Уже есть заготовка - класс HistoryListener, надо сделать его реализацию
