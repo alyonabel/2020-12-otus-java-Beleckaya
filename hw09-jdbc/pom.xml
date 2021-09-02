@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>2020-12-otus-java-Beleckaya</artifactId>
+        <groupId>org.example</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>hw09-jdbc</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+            <version>2.3.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.30</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>7.11.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.23</version>
+        </dependency>
+
+    </dependencies>
+
+    <properties>
+        <maven.compiler.source>15</maven.compiler.source>
+        <maven.compiler.target>15</maven.compiler.target>
+    </properties>
+    <build>
+    <pluginManagement>
+    <plugins>
+<!--        <plugin>-->
+<!--            <groupId>com.spotify</groupId>-->
+<!--            <artifactId>docker-maven-plugin</artifactId>-->
+<!--            <version>1.2.0</version>-->
+<!--            <configuration>-->
+<!--                <imageName> linyuantongxue / docker-demo: 0.0.1 </imageName> // Укажите имя образа, linyuantongxue - это имя хранилища (соответствует имени пользователя DockerHub), docker-demo - имя образа (соответствует хранилищу DockerHub имя), 0.0.1 - имя метки (эквивалент номера версии)-->
+<!--                <baseImage> java </baseImage> // Укажите базовое изображение, которое эквивалентно инструкции FROM-->
+<!--                <entryPoint> ["java", "- jar", "app.jar"] </entryPoint> // эквивалент инструкции ENTRYPOINT-->
+<!--                <resources>-->
+<!--                    <resource>-->
+<!--                        <targetPath>/</targetPath>-->
+<!--                        <directory> $ {project.build.directory} </directory> // Укажите корневой каталог для копирования, $ {project.build.directory} представляет целевой каталог-->
+<!--                        <include> $ {project.build.finalName} .jar </include> // Укажите файл для копирования, $ {project.build.finalName} .jar относится к упакованному файлу jar-->
+<!--                    </resource>-->
+<!--                </resources>-->
+<!--            </configuration>-->
+<!--        </plugin>-->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.8</version>
+            <executions>
+                <execution>
+                    <id>build Docker image</id>
+                    <phase>package</phase>
+                    <configuration>
+                       <target>
+                           <copy todir="${basedir}/target" overwrite="true">
+                               <fileset dir="${basedir}/docker"/>
+                           </copy>
+                           <chmod file="${basedir}/target/runDb.src" perm="a+x"/>
+                           <exec dir="${basedir}/target" executable="${basedir}/target/runDb.src"/>
+                       </target>
+                    </configuration>
+                    <goals><goal>
+                        run
+                    </goal></goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+    </pluginManagement>
+    </build>
+
+</project>
