@@ -14,7 +14,7 @@ public class TransactionManagerJdbc implements TransactionManager {
     @Override
     public <T> T doInTransaction(TransactionAction<T> action) {
         return notTrowAction(() -> {
-            try (var connection = dataSource.getConnection()) {
+            try (var connection = dataSource.getConnection()) { //в рамках взятого connection выполняем какое-то действие
                 try {
                     var result = action.apply(connection);
                     connection.commit();

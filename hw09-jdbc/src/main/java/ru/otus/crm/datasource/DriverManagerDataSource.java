@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
+//Конкретный DataSource
 public class DriverManagerDataSource implements DataSource {
     private final String url;
     private final String user;

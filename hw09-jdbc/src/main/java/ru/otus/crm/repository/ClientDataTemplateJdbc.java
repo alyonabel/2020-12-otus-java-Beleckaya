@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+//Конкретное применениe executor
 public class ClientDataTemplateJdbc implements DataTemplate<Client> {
 
     private final DbExecutor dbExecutor;

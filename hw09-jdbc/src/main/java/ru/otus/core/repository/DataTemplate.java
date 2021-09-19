@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
+//Сущность T, тип данных
 public interface DataTemplate<T> {
     Optional<T> findById(Connection connection, long id);
 

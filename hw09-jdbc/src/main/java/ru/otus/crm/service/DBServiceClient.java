@@ -4,6 +4,8 @@ import ru.otus.crm.model.Client;
 
 import java.util.List;
 import java.util.Optional;
+//Верхний уровень абстракции, слой бизнес логики
+//Cервис, который будет работать с клиентами
 
 public interface DBServiceClient {
 
