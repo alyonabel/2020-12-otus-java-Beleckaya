@@ -47,23 +47,6 @@
     <build>
     <pluginManagement>
     <plugins>
-<!--        <plugin>-->
-<!--            <groupId>com.spotify</groupId>-->
-<!--            <artifactId>docker-maven-plugin</artifactId>-->
-<!--            <version>1.2.0</version>-->
-<!--            <configuration>-->
-<!--                <imageName> linyuantongxue / docker-demo: 0.0.1 </imageName> // Укажите имя образа, linyuantongxue - это имя хранилища (соответствует имени пользователя DockerHub), docker-demo - имя образа (соответствует хранилищу DockerHub имя), 0.0.1 - имя метки (эквивалент номера версии)-->
-<!--                <baseImage> java </baseImage> // Укажите базовое изображение, которое эквивалентно инструкции FROM-->
-<!--                <entryPoint> ["java", "- jar", "app.jar"] </entryPoint> // эквивалент инструкции ENTRYPOINT-->
-<!--                <resources>-->
-<!--                    <resource>-->
-<!--                        <targetPath>/</targetPath>-->
-<!--                        <directory> $ {project.build.directory} </directory> // Укажите корневой каталог для копирования, $ {project.build.directory} представляет целевой каталог-->
-<!--                        <include> $ {project.build.finalName} .jar </include> // Укажите файл для копирования, $ {project.build.finalName} .jar относится к упакованному файлу jar-->
-<!--                    </resource>-->
-<!--                </resources>-->
-<!--            </configuration>-->
-<!--        </plugin>-->
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-antrun-plugin</artifactId>

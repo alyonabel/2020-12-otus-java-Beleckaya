@@ -80,14 +80,8 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
         var values = new ArrayList<>(fields.size());
 
         for (var field : fields) {
-            try {
                 field.setAccessible(true);
                 values.add(field.get(object));
-            } catch (IllegalAccessException e) {
-                throw e;
-            } finally {
-                field.setAccessible(false);
-            }
         }
         return values;
     }
