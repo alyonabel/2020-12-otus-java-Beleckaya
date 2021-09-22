@@ -1,15 +1,11 @@
 package ru.otus.crm.model;
 
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "client")
+@Table(name = "clients")
 public class Client implements Cloneable {
 
     @Id
@@ -19,6 +15,12 @@ public class Client implements Cloneable {
 
     @Column(name = "name")
     private String name;
+
+    @OneToOne(mappedBy = "client", cascade = CascadeType.ALL)
+    private AddressDataSet addressDataSet;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<PhoneDataSet> phoneDataSets;
 
     public Client() {
     }
@@ -32,6 +34,22 @@ public class Client implements Cloneable {
         this.id = id;
         this.name = name;
     }
+
+    public Client deepCopy() {
+        var client = new Client(this.id, this.name);
+        var copiedAddress = this.addressDataSet.copy();
+        copiedAddress.setClient(client);
+        client.setAddressDataSet(copiedAddress);
+        client.setPhoneDataSets(this.phoneDataSets.stream()
+                .map(it -> {
+                    var copiedPhone = it.copy();
+                    copiedPhone.setClient(client);
+                    return copiedPhone;
+                }).collect(Collectors.toList())
+        );
+        return client;
+    }
+
 
     @Override
     public Client clone() {
@@ -52,6 +70,22 @@ public class Client implements Cloneable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public AddressDataSet getAddressDataSet() {
+        return addressDataSet;
+    }
+
+    public void setAddressDataSet(AddressDataSet addressDataSet) {
+        this.addressDataSet = addressDataSet;
+    }
+
+    public List<PhoneDataSet> getPhoneDataSets() {
+        return phoneDataSets;
+    }
+
+    public void setPhoneDataSets(List<PhoneDataSet> phoneDataSets) {
+        this.phoneDataSets = phoneDataSets;
     }
 
     @Override

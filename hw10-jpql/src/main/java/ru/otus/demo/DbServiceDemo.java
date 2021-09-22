@@ -7,8 +7,12 @@ import ru.otus.core.repository.DataTemplateHibernate;
 import ru.otus.core.repository.HibernateUtils;
 import ru.otus.core.sessionmanager.TransactionManagerHibernate;
 import ru.otus.crm.dbmigrations.MigrationsExecutorFlyway;
+import ru.otus.crm.model.AddressDataSet;
 import ru.otus.crm.model.Client;
+import ru.otus.crm.model.PhoneDataSet;
 import ru.otus.crm.service.DbServiceClientImpl;
+
+import java.util.List;
 
 public class DbServiceDemo {
 
@@ -25,26 +29,42 @@ public class DbServiceDemo {
 
         new MigrationsExecutorFlyway(dbUrl, dbUserName, dbPassword).executeMigrations();
 
-        var sessionFactory = HibernateUtils.buildSessionFactory(configuration, Client.class);
+        var sessionFactory = HibernateUtils.buildSessionFactory(configuration, Client.class, AddressDataSet.class, PhoneDataSet.class);
 
         var transactionManager = new TransactionManagerHibernate(sessionFactory);
 ///
         var clientTemplate = new DataTemplateHibernate<>(Client.class);
 ///
         var dbServiceClient = new DbServiceClientImpl(transactionManager, clientTemplate);
-        dbServiceClient.saveClient(new Client("dbServiceFirst"));
 
-        var clientSecond = dbServiceClient.saveClient(new Client("dbServiceSecond"));
-        var clientSecondSelected = dbServiceClient.getClient(clientSecond.getId())
-                .orElseThrow(() -> new RuntimeException("Client not found, id:" + clientSecond.getId()));
-        log.info("clientSecondSelected:{}", clientSecondSelected);
+        var client = new Client("dbServiceFirst");
+        var addressDataSet = new AddressDataSet();
+        addressDataSet.setStreet("RedStreet");
+        client.setAddressDataSet(addressDataSet);
+        addressDataSet.setClient(client);
+
+        var phoneDataSet = new PhoneDataSet("140-350");
+        phoneDataSet.setClient(client);
+        var phonaDataSet2 = new PhoneDataSet("940-650");
+        phonaDataSet2.setClient(client);
+
+        client.setPhoneDataSets(List.of(phoneDataSet, phonaDataSet2));
+
+        var savedClient = dbServiceClient.saveClient(client);
+
+        var clientSelected = dbServiceClient.getClient(savedClient.getId())
+                .orElseThrow(() -> new RuntimeException("Client not found, id:" + client.getId()));
+        log.info("clientSecondSelected:{}", clientSelected);
 ///
-        dbServiceClient.saveClient(new Client(clientSecondSelected.getId(), "dbServiceSecondUpdated"));
-        var clientUpdated = dbServiceClient.getClient(clientSecondSelected.getId())
-                .orElseThrow(() -> new RuntimeException("Client not found, id:" + clientSecondSelected.getId()));
+        clientSelected.setName("NewUpdatedName");
+        clientSelected.getPhoneDataSets().removeIf(it -> it.getNumber().equals("940-650"));
+
+        dbServiceClient.saveClient(clientSelected);
+        var clientUpdated = dbServiceClient.getClient(clientSelected.getId())
+                .orElseThrow(() -> new RuntimeException("Client not found, id:" + clientSelected.getId()));
         log.info("clientUpdated:{}", clientUpdated);
 
         log.info("All clients");
-        dbServiceClient.findAll().forEach(client -> log.info("client:{}", client));
+        dbServiceClient.findAll().forEach(it -> log.info("client:{}", it));
     }
 }
